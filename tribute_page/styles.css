@@ -1,0 +1,43 @@
+* {
+  font-family: Helvetica;
+  font-size:20px;
+}
+
+main {
+  background-color: rgb(200,200,200);
+  margin: 0;
+  text-align: center;
+}
+
+figure {
+  background-color: black;
+  color: white;
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+}
+
+h1 {
+  margin: 20px auto;
+  font-size: 2rem;
+  padding: 20px;
+}
+
+div h3 {
+  text-align: center;
+}
+
+#tribute-info {
+  width: auto;
+  max-width: 60%;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.footer {
+  padding-bottom: 30px;
+}
+
