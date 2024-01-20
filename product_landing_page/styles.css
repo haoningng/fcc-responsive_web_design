@@ -1,0 +1,148 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 20px;
+  font-family: 'Baskervville', serif;
+  overflow-wrap: break-word;
+  color: linen;
+  background-color: rgb(37, 36, 34);
+  display: grid;
+  margin: 2px 20px;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 2rem;
+}
+
+header {
+  position: sticky;
+  top:0;
+  background-color: rgb(37, 36, 34);
+  grid-column: 1/-1;
+  display: flex;
+  grid-template-columns: 1fr 1fr;
+  justify-content: space-between;
+}
+
+#nav-bar {
+  margin-top: -4px;
+  top:0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  grid-column: 2/-1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 10px;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+}
+
+
+
+ nav a.nav-link:hover {
+  color:rgb(37, 36, 34);
+  background-color: gold;
+  cursor: pointer;
+}
+
+
+h2 {
+  color: gold;
+}
+
+#form {
+ margin: 0 auto;
+ text-align: center;
+ height: 200px;
+}
+
+#header-img {
+  position: relative;
+  object-fit: cover;
+}
+
+input#email {
+  width: 250px;
+  height: 30px;
+  border-radius: 30px;
+  padding-left: 20px;
+  font-family: Anton;
+  letter-spacing: 1px;
+}
+
+#submit {
+  width: 100px;
+  height: 30px;
+  border-radius: 30px;
+  font-family: Anton;
+  color:white;
+  background-color: #606000;
+  border: none;
+}
+
+#submit:hover {
+  cursor: pointer;
+  background-color: White;
+  color: #606000;
+}
+
+div.intro {
+  display: grid;
+  grid-template-columns: 1fr 8fr;
+  align-items: center;
+  justify-items: left;
+  column-gap: 2rem;
+  margin: 0 auto 4rem;
+  width: 70vw;
+}
+
+.icon {
+  color: gold;
+}
+
+iframe {
+  margin: 0 auto 4rem;
+}
+
+.products {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background: linear-gradient(
+    gold 0%,
+    gold 80px,
+    rgb(37,36,34) 80px
+  );
+  margin: 0 auto 4rem;
+}
+
+.name {
+  font-size: 1.2rem;
+  margin-top: -10px;
+  color: black;
+  background-color:gold;
+}
+
+.product {
+    border: 2px solid black;
+    padding: 20px;
+    vertical-align: center;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  margin: 1rem;
+}
+
+footer {
+  text-align: right;
+  margin: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+      background-color: rgb(57, 56, 54);
+    }
+}
