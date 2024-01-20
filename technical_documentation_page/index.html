@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charsest="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GCC Compilation Process</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <nav id="navbar">
+      <header>GCC Compilation Process</header>
+      <ul>
+      <li><a class="nav-link" href="#What_Is_Compiling">What Is Compiling</a></li>
+      <li><a class="nav-link" href="#Four_Steps_Of_Compiling">Four Steps Of Compiling</a></li>
+      <li><a class="nav-link" href="#Step_1:_Preprocessing">Step 1: Preprocessing</a></li>
+      <li><a class="nav-link" href="#Step_2:_Compiling">Step 2: Compiling</a></li>
+      <li><a class="nav-link" href="#Step_3:_Assembling">Step 3: Assembling</a></li>
+      <li><a class="nav-link" href="#Step_4:_Linking">Step 4: Linking</a></li>
+    </ul>
+    </nav>
+    <main id="main-doc">
+      <section id="What_Is_Compiling" class="main-section">
+        <header>What Is Compiling</header>
+        <p>Compiling is one of the best examples of abstraction, AKA stripping away the complex details to focus the users’ attention on achieving more important things.</p>
+        <p>Driving a car is also an abstraction. One doesn’t need to understand how the engine works to drive a car. Likewise, a compiler is often likened to a black box that simply “compiles” or changes a source code written in a high-level human-readable programming language to low-level machine code.</p>
+        <p>For context, there are many different compilers out there. There are gcc, Clang, LLVM and many more. I was first exposed to Clang when I did Harvard’s CS50x course, from which I was taught that Clang is a more recent alternative that is gaining popularity largely due to its more user-friendly error messages. However, this post focuses on gcc simply because it is what I am currently using as part of my Hoberton School project.</p>
+        <p>Read more about the differences between gcc and Clang: <a href="https://www.incredibuild.com/blog/gcc-vs-clang-battle-of-the-behemoths">https://www.incredibuild.com/blog/gcc-vs-clang-battle-of-the-behemoths</a></p>
+      </section>
+      <section id="Four_Steps_Of_Compiling" class="main-section">
+        <header>Four Steps Of Compiling</header>
+        <ol>
+          <li>Preprocessing</li>
+          <li>Compiling</li>
+          <li>Assembling</li>
+          <li>Linking</li>
+          <li hidden>...</li>
+        </ol>
+      </section>
+      <section id="Step_1:_Preprocessing" class="main-section">
+        <header>Step 1: Preprocessing</header>
+        <p>To explain this step, we first need to look at a small snippet of code, which in this case is written in C:</p>
+        <code> <pre>
+#include 	&lt;studio.h&gt
+
+int hello(void); /* This is a prototype*/
+int main(void)
+{
+        hello();
+        return(0);
+}
+
+int hello(void) /* This is a declaration of the function hello() */
+{
+        printf("Hello, world!\n");
+        return(0);
+} </pre>
+        </code>
+        <p>In this case, this code is to demonstrate that the computer reads and process the code from top to bottom. The only way for it to recognise the hello() function in main is to include a prototype of the hello() function before main.</p>
+        <p>The header file <stdio.h> is written on the top for the same reason. Somewhere in the “stdio” library, which contains codes written by some other smart people, are the declarations of functions. In this case, printf() function is one of those many codes included in the “stdio” library. So, we need to somehow let the computer “see” the prototype of the printf() function right on top of everything else.</p>
+        <p>Preprocessing basically does that for us. It expands the header file to its source code from which we will see the declaration of the printf() function a bit like this:</p>
+        <code> <pre>
+...
+int printf(const char *format, ...); /* This is a prototype of printf() */
+...
+
+int hello(void); /* This is a prototype */
+int main(void)
+{
+        hello();
+        return(0);
+}
+
+int hello(void) /* This is a declaration of the function hello() */
+{
+        printf("Hello, world!\n");
+        return(0);
+}
+</pre>
+        </code>
+        <p>TLDR: Step one expands the header file which comes with a bunch of declarations of functions that we might need in the code. Most importantly, they sit on top of the code so the computer can “see” first.</p>
+        <p>The output file in this step ends with an extension “.i”.</p>
+      </section>
+      <section id="Step_2:_Compiling" class="main-section">
+        <header>Step 2: Compiling</header>
+        <p>Before there was a programming language like C, computer scientists used to code in a more arcane assembly language.</p>
+        <p>This step, which is confusingly called compiling basically takes the output of the preprocessing step, and converts it into assembly language that looks something like this:</p>
+        <code> <pre>
+... 
+.globl _hello                          ## -- Begin function hello
+ .p2align 4, 0x90
+_hello:                                 ## @hello
+ .cfi_startproc
+## %bb.0:
+ pushq %rbp
+ .cfi_def_cfa_offset 16
+ .cfi_offset %rbp, -16
+ movq %rsp, %rbp
+ .cfi_def_cfa_register %rbp
+ leaq L_.str(%rip), %rdi
+ movb $0, %al
+ callq _printf
+ xorl %eax, %eax
+ popq %rbp
+ retq
+ .cfi_endproc
+                                        ## -- End function
+ .section __TEXT,__cstring,cstring_literals
+L_.str:                                 ## @.str
+ .asciz "Hello, world!\n"
+  </pre>
+        </code>
+        <p>The output file in this step ends with an extension “.s”.</p>
+      </section>
+      <section id="Step_3:_Assembling" class="main-section">
+        <header>Step 3: Assembling</header>
+        <p>Before there was assembling language, humans used to code in nothing other than plain binary code, be it in code or be it in physical punch cards. In other words, computers ultimately still need further translation from the aforementioned assembly language to a level close to binary codes.</p>
+        <p>That’s right, this next step which is known as assembling basically further converts the assembling language into even lower-level machine code (AKA object code) that looks something like this:</p>
+        <code>
+          <pre>
+??? ??(?__text__TEXT6(?__cstring__TEXT6^__compact_unwind__LDH@p0__eh_frame__TEXT?h?
+@p                                                                                 h2
+  PUH??H???E??1?H??]?@UH??H?=
+                             ??1?]?Hello, world!
+ zRx
+.-'- _hello_main_printf%  
+</pre>
+        </code>
+        <p>The output file in this step ends with an extension “.o”.</p>
+      </section>
+      <section id="Step_4:_Linking" class="main-section">
+        <header>Step 4: Linking</header>
+        <p>Until now, the gcc compiler still doesn’t know the definition of functions like printf(). This final step which is called linking, as the name suggests, links the definition of functions to the code, along with many other essential codes that render the file executable.</p>
+        <p>After this step, an executable file is outputted with an extension of “.out” by default.</p>
+        <p>Voila! This is the end of the process of compiling.</p>
+        <p>I hope this article helps you in your learning.</p>
+        <code>
+          <pre>
+            Thank you for reading!
+          </pre>
+        </code>
+      </section>
+    </main>
+  </body>
+
+</html>
